@@ -1,74 +1,29 @@
-# BH24 BioHackrXiv Publication Template
+# Getting shapes from large rdf inputs
 
-Minimal example of a [BioHackrXiv](https://biohackrxiv.org/) publication that can be generated with the
-[Preview Service](http://preview.biohackrxiv.org/).
+## Background
+In this project we aim to improve the current mechanism to get shapes from large RDF inputs. We focus on practical uses cases related to LifeSciences and data handleded in some way by DBCLS. 
 
-## Step 1: Clone this Template Repository
+Current "mature" approaches for doing that are largely based on sampling or interpretation of VOID data. The approach based on void seems to be performant, both in terms on the quality of the obtained schemes and the speed of the process itself. However, the VOID data should exist in order to be able to get the data schemes. 
+On the other hand, sampling approaches may suffer fomr some data lost. 
 
-This repository is a template repository. This means that you can hit the green "Use this template"
-button (after logging in) to use it as a template to start a new BioHackrXiv Publication:
+In a previos BioHackathon, we were able to propose and produce a prototype code for extracting shapes in a different way.
 
-![Screenshot of the green "Use this template" button.](paper/use-this-template.png)
+1) We split the input source in different slices.
+2) We run an extration process in the different slices.
+3) We merge the schemes obtained in a single one.
 
-## Step 2: Configuring the Markdown
+## Sources from which we were able to extract schemes
 
-The publication Markdown is found in the `paper/paper.md` file. At the top you can edit the
-YAML code with metadata. It is important to get this part correct, because otherwise the PDF
-generation will fail. The metadata looks like this:
+During this hackathon, we have been able to obtain schemes using a large portion of Uniprot's grpah, using 86 files of its rdf dumps. Also, we have fully implemented or started the implementation of several features in sheXer, the extraction tool used to perform the shape extraction itself. These features are the following ones:
 
-```yaml
-title: 'DBCLS BioHackathon 2024 Report for Project: Genome variation'
-title_short: 'BioHackJP24: Genome variation'
-tags:
-  - Genomics
-  - Human genetics
-authors:
-  - name: Toshiaki Katayama
-    affiliation: 1
-affiliations:
-  - name: Database Center for Life Science, Research Organization for Information and Systems
-    index: 1
-date: 31 August 2024
-cito-bibliography: paper.bib
-event: BH24JP
-biohackathon_name: "DBCLS BioHackathon 2024"
-biohackathon_url:   "https://2024.biohackathon.org/"
-biohackathon_location: "Fukushima, Japan, 2024"
-group: Genome variation
-# URL to project git repo --- should contain the actual paper.md:
-git_url: https://github.com/biohackathon-japan/bh24-genome-variation
-# This is the short authors description that is used at the
-# bottom of the generated paper (typically the first two authors):
-authors_short: Toshiaki Katayama \emph{et al.}
-```
+## New features in the tools used for the extraction process.
 
-### Which metadata to update?
+- IMPLEMENTED: Modification of log output channels, so those messages are not going trough the standar output along (potentially) with the extracted schemes. This allows for a better integration of the process with other tools.
+- IMPLEMENTED: Change w.r.t. handling BNodes when minign information from SPARQL endpoints. We stop considering them as potential seed nodes when sampling instance data, as this could leed to errors or invalid SPARQL queries when tryin to retrieve information about such nodes in other SPARQL queries.
+- IMPLEMENTED: Use of RDF annotations at constraint level within the produced shapes. With this, sheXer is able to provide a machine readable and ShEx compliant example of each extracted feature, which allows to feed further products for better documentation.
 
-#### To change
+- WORK ON PROGRESS: Full support to schema extraction with BNodes with certain types of input. The way in which sheXer processes the graph locally does not require to load the graph in memory nor any endpoint, but, as a trade-off, the graph should be walked twice. This introduce a hard to deal with issue regarding BNodes, as they lack an indentifier and you can'e ensure with most parsers to be able to reference in a consistat monner such nodes on different walks. The code is not completed yet, but during the biohackathon we figure out a way to handle this issue as long as the input meets certain conditions.
 
-The following fields should be changed:
-
-* title
-* title_short
-* tags
-* authors
-* affiliations
-* date
-* group
-* authors_short
-
-Particularly important to update is the following field, which should point to
-your clone of the template, instead of the template itself:
-
-* git_url: https://github.com/biohackathon-japan/bh24-genome-variation
-
-## Step 3: Writing the article
-
-A full Markdown example is given in [paper/paper.md](paper/paper.md). This includes instructions how to include
-figures, tables, and annotate citations with the Citation Typing Ontology.
-
-## Step 4: Previewing the paper as PDF
-
-This repository can be converted into a preview PDF with BioHackrXiv [Preview Server](http://preview.biohackrxiv.org/).
-The preview website asks for the link to your repository and will automatically find the `paper.md` and create an PDF.
+## Future work
+We want to finish the work initiated regarding implementation during this hackathon as well as working in a scalable and efficient strategy to perform input slicing. 
 
