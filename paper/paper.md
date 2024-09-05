@@ -1,27 +1,40 @@
 ---
-title: 'BioHackEU23 report: Template for the very long title'
-title_short: 'BioHackEU23 #26: unknown chemical substances'
+title: 'BioHack24 report: Using discovered RDF schemes: a compilation of potential use cases for shapes reusage'
+title_short: 'BioHack24 report: Using discovered RDF schemes'
 tags:
-  - cheminformatics
-  - PubChem
-  - unknown chemical substances
+  - RDF
+  - ShEx
+  - SHACL
+  - Schema
+  - Automatic extraction
+  - Large inputs
 authors:
-  - name: First Author
+  - name: Daniel Fernández-Álvarez
     affiliation: 1
-  - name: Last Author
     orcid: 0000-0000-0000-0000
+  - name: Jerven Bolleman
     affiliation: 2
+    orcid: 0000-0000-0000-0000
+  - name: Jose Emilio Labra Gayo
+    affiliation: 1
+    orcid: 0000-0000-0000-0000
+  - name: Yasunori Yamamoto
+    affiliation: 2
+    orcid: 0000-0000-0000-0000
+  - name: Andra Waagmaaster
+    affiliation: 2
+    orcid: 0000-0000-0000-0000
 affiliations:
-  - name: First Affiliation
+  - name: Weso Research Group, University of Oviedo, Spain
     index: 1
   - name: Second Affiliation
     index: 2
-date: 8 November 2023
+date: 04 September 2024
 cito-bibliography: paper.bib
-event: BH23EU
-biohackathon_name: "BioHackathon Europe 2023"
-biohackathon_url:   "https://biohackathon-europe.org/"
-biohackathon_location: "Barcelona, Spain, 2023"
+event: BH24
+biohackathon_name: "DBCLS BioHackathon 2024"
+biohackathon_url:   "http://2024.biohackathon.org/"
+biohackathon_location: "Fukushima, Japan, 2024"
 group: Project 26
 # URL to project git repo --- should contain the actual paper.md:
 git_url: https://github.com/biohackrxiv/publication-template
@@ -33,82 +46,65 @@ authors_short: First Author \emph{et al.}
 
 # Introduction
 
-As part of the BioHackathon Europe 2023, we here report...
-
-# Formatting
-
-This document use Markdown and you can look at [this tutorial](https://www.markdowntutorial.com/).
-
-## Subsection level 2
-
-Please keep sections to a maximum of only two levels.
-
-## Tables and figures
-
-Tables can be added in the following way, though alternatives are possible:
-
-Table: Note that table caption is automatically numbered and should be
-given before the table itself.
-
-| Header 1 | Header 2 |
-| -------- | -------- |
-| item 1 | item 2 |
-| item 3 | item 4 |
-
-A figure is added with:
-
-![Caption for BioHackrXiv logo figure](./biohackrxiv.png)
-
-# Other main section on your manuscript level 1
-
-Lists can be added with:
-
-1. Item 1
-2. Item 2
-
-# Citation Typing Ontology annotation
-
-You can use [CiTO](http://purl.org/spar/cito/2018-02-12) annotations, as explained in [this BioHackathon Europe 2021 write up](https://raw.githubusercontent.com/biohackrxiv/bhxiv-metadata/main/doc/elixir_biohackathon2021/paper.md) and [this CiTO Pilot](https://www.biomedcentral.com/collections/cito).
-Using this template, you can cite an article and indicate _why_ you cite that article, for instance DisGeNET-RDF [@citesAsAuthority:Queralt2016].
-
-The syntax in Markdown is as follows: a single intention annotation looks like
-`[@usesMethodIn:Krewinkel2017]`; two or more intentions are separated
-with colons, like `[@extends:discusses:Nielsen2017Scholia]`. When you cite two
-different articles, you use this syntax: `[@citesAsDataSource:Ammar2022ETL; @citesAsDataSource:Arend2022BioHackEU22]`.
-
-Possible CiTO typing annotation include:
-
-* citesAsDataSource: when you point the reader to a source of data which may explain a claim
-* usesDataFrom: when you reuse somehow (and elaborate on) the data in the cited entity
-* usesMethodIn
-* citesAsAuthority
-* citesAsEvidence
-* citesAsPotentialSolution
-* citesAsRecommendedReading
-* citesAsRelated
-* citesAsSourceDocument
-* citesForInformation
-* confirms
-* documents
-* providesDataFor
-* obtainsSupportFrom
-* discusses
-* extends
-* agreesWith
-* disagreesWith
-* updates
-* citation: generic citation
 
 
-# Results
+Shape schemes (SHACL, ShEx) have proben to be effective tools to validate and describe RDF content. However, writing and maintaining RDF schemas can be a time-consuming task, especially when many different shapes are involved. To address this issue, several approaches for automatic schema discovery have been proposed (CITE sheXer, Jerven’s [tool name! how to cite? @Jerven], Consolidation, Astrea, QSE...). 
+
+Those approaches are specially useful when handling large RDF datasources, as in such scenarios writing, maintaining or even knowing the schemes becomes a more challeging task. However, most of the existing tools to perform automatic schema discoverage run into different issues related to eprformance or hardware requirements when used in such scenasrios.
+
+Current "mature" approaches to extract shapes form large inputs ar largely on sampling or interpretation of VOID data. The approach based on VOID is the best performant one both in terms on the quality of the obtained schemes and the speed of the process itself. However, the VOID data should exist in order to be able to get the data schemes. On the other hand, sampling-based approaches can extract approximate shapes from any input, but the sample size may affect the quality of the results .
 
 
-# Discussion
+In a previous BioHackathon, we were able to propose and imeplement a prototype for extracting shapes using a different strategy:
 
-...
+1. We split the input source in different slices.
+2. We run an extration process in the different slices.
+3. We merge the schemes obtained in a single one.
+
+The shape extractor used in the second step is sheXer. The approach, results, and experiments performed has been published [CITA AQUÍ AL SWAT4HCLS]
+
+
+In this project, we aim to improve this approach as well as find new usages for our prototype.
+
+In a previos BioHackathon, we were able to propose and produce a prototype code for extracting shapes in a different way.
+
+
+# Schemes extracted
+
+During this hackathon, we have been able to obtain schemes from a large protion of Uniprot's graph. We have used as input 308 different files from Uniprot's dump, which we estimate to contain 15.9G triples. We have run an individual extraction process over each file and then we have been able to merge the result in a single schema described all shapes observed among such data. Each partial extraction was executed sequentially, althoguh this approache could be trivially parallelized. In this case, the execution of every extraction was running for more than 2 days in a server ... [should we describe the machine or detail the execution time?] @Yasunori.
+
+The results obtained are publicly available [once I fix the consolidator w.r.t. annotations, maybe we should place the shapes somewhere and share them. Could be in this repository.]@Yasunori
+
+## Process improvements
+
+During this BioHackathon, we have been able to add new features in sheXer, the library used for the schema extraction. Such improvements cause an improvement on the obtained schemas or the integration of different pieces in the workflow that allows us to consolidate schemes. The new features are the following ones:
+
+
+
+* Modification of log output channels, so those messages are not going trough the standar output along (potentially) with the extracted schemes. This allows for a better integration of the process with other tools.
+
+* Change w.r.t. handling BNodes when minign information from SPARQL endpoints. We stop considering them as potential seed nodes when sampling instance data, as this could leed to errors or invalid SPARQL queries when tryin to retrieve information about such nodes in other SPARQL queries.
+
+* Use of RDF annotations at constraint level within the produced shapes. With this, sheXer is able to provide a machine readable and ShEx compliant example of each extracted feature, which allows to feed further products for better documentation.
+
+* Full support to schema extraction with BNodes with certain types of input. The way in which sheXer processes the graph locally does not require to load the graph in memory nor any endpoint. However, as a trade-off, the graph should be walked twice. This need introduces an issue regarding BNodes, as they lack an indentifier and one cannot ensure with most parsers to be able to reference a certain BNode in a consistat manner in different walsk of a graph. Nevertheless, during this hackathon, we were able to implement a sollution to this problem able to naturally handle BNodes for turtle and NTriples sintaxes. 
+
+
+
+## Conclusions and future work
+
+The approach proposed allows us to extract shapes using the whole information in large sources such as UniProt. We have several lines of future work for this approach:
+
+* Propose scalable and adequate startegies to slice the input source, so the subgraphs of each slice are as well-connected and complete as possible.
+
+* Complement the schema consolidation not only using the partial schemes extracted, but also ontology information related to domain, range or expected cardinality for certain types of nodes.
+
+* Provide a parallelized implementation of this approach to reduce execution times
 
 ## Acknowledgements
 
-...
+[...]
 
 ## References
+
+[...]
