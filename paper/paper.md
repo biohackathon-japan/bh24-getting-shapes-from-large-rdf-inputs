@@ -7,13 +7,11 @@ tags:
   - SHACL
   - Schema
   - Automatic extraction
-  - Large inputs
+  - Large data
+  - sheXer
 authors:
   - name: Daniel Fernández-Álvarez
     affiliation: 1
-    orcid: 0000-0000-0000-0000
-  - name: Jerven Bolleman
-    affiliation: 2
     orcid: 0000-0000-0000-0000
   - name: Jose Emilio Labra Gayo
     affiliation: 1
@@ -48,58 +46,54 @@ authors_short: First Author \emph{et al.}
 
 
 
-Shape schemes (SHACL, ShEx) have proben to be effective tools to validate and describe RDF content. However, writing and maintaining RDF schemas can be a time-consuming task, especially when many different shapes are involved. To address this issue, several approaches for automatic schema discovery have been proposed (CITE sheXer, Jerven’s [tool name! how to cite? @Jerven], Consolidation, Astrea, QSE...). 
+Shape schemas (SHACL, ShEx) have proven to be effective tools for validating and describing RDF content. However, writing and maintaining RDF schemas can be a time-consuming task, particularly when multiple shapes are involved. To address this challenge, several approaches for automatic schema discovery have been proposed (CITE sheXer, Jerven’s [tool name! how to cite? @Jerven], Consolidation, Astrea, QSE...). 
 
-Those approaches are specially useful when handling large RDF datasources, as in such scenarios writing, maintaining or even knowing the schemes becomes a more challeging task. However, most of the existing tools to perform automatic schema discoverage run into different issues related to eprformance or hardware requirements when used in such scenasrios.
+These approaches are especially useful when working with large RDF datasets, where manually writing, maintaining, or even understanding schemas becomes significantly more difficult. However, most existing tools for automatic schema discovery encounter performance issues or high hardware requirements when applied to large-scale datasets.
 
-Current "mature" approaches to extract shapes form large inputs ar largely on sampling or interpretation of VOID data. The approach based on VOID is the best performant one both in terms on the quality of the obtained schemes and the speed of the process itself. However, the VOID data should exist in order to be able to get the data schemes. On the other hand, sampling-based approaches can extract approximate shapes from any input, but the sample size may affect the quality of the results .
+Current established methods for extracting shapes from large datasets mainly rely on sampling or utilizing VOID data. VOID-based approaches generally offer the best performance in terms of execution time and can produce high-quality shapes, provided the VOID data itself is of sufficient quality. However, this method is limited by the need for pre-existing VOID data. On the other hand, sampling-based approaches can extract approximate shapes from any input, but the sample size can impact the quality of the results.
 
+During a previous BioHackathon, we proposed and implemented a prototype for extracting shapes using a different strategy:
 
-In a previous BioHackathon, we were able to propose and imeplement a prototype for extracting shapes using a different strategy:
+1. We split the input source into distinct slices.
+2. We ran the extraction process on each slice.
+3. We merged the resulting schemas into a single, unified schema.
 
-1. We split the input source in different slices.
-2. We run an extration process in the different slices.
-3. We merge the schemes obtained in a single one.
-
-The shape extractor used in the second step is sheXer. The approach, results, and experiments performed has been published [CITA AQUÍ AL SWAT4HCLS]
-
-
-In this project, we aim to improve this approach as well as find new usages for our prototype.
-
-In a previos BioHackathon, we were able to propose and produce a prototype code for extracting shapes in a different way.
+The shape extractor used in the second step was sheXer. The approach, results, and experiments conducted have been published [CITE SWAT4HCLS HERE].
 
 
-# Schemes extracted
+In this project, we aim to refine this approach and explore new use cases for our prototype.
 
-During this hackathon, we have been able to obtain schemes from a large protion of Uniprot's graph. We have used as input 308 different files from Uniprot's dump, which we estimate to contain 15.9G triples. We have run an individual extraction process over each file and then we have been able to merge the result in a single schema described all shapes observed among such data. Each partial extraction was executed sequentially, althoguh this approache could be trivially parallelized. In this case, the execution of every extraction was running for more than 2 days in a server ... [should we describe the machine or detail the execution time?] @Yasunori.
 
-The results obtained are publicly available [once I fix the consolidator w.r.t. annotations, maybe we should place the shapes somewhere and share them. Could be in this repository.]@Yasunori
+# Extracted Schemas
+
+During this hackathon, we successfully extracted schemas from a significant portion of UniProt’s graph. We used 308 different files from UniProt's dump, which we estimate to contain approximately 15.9 G triples. We performed individual extraction processes for each file and subsequently merged the results into a single schema that describes all shapes observed within the dataset. Although we executed each partial extraction sequentially, this process could be easily parallelized. In our case, each extraction ran for more than two days on a server [should we describe the hardware or detail the execution time?] @Yasunori.
+
+The results obtained are publicly available [once I fix the consolidator w.r.t. annotations, maybe we should place the shapes somewhere and share them. Maybe in this repository.]@Yasunori
 
 ## Process improvements
 
-During this BioHackathon, we have been able to add new features in sheXer, the library used for the schema extraction. Such improvements cause an improvement on the obtained schemas or the integration of different pieces in the workflow that allows us to consolidate schemes. The new features are the following ones:
+During this BioHackathon, we introduced several enhancements to sheXer, the library used for schema extraction. These improvements enhanced the quality of the extracted schemas and streamlined the integration of different components in the workflow for schema consolidation. The key improvements include:
 
 
+* Modification of log output channels. Log messages are no longer sent to the standard output, potentially alongside the extracted schemas. This change facilitates better integration with other tools and workflows.
 
-* Modification of log output channels, so those messages are not going trough the standar output along (potentially) with the extracted schemes. This allows for a better integration of the process with other tools.
+* Handling of blank nodes (BNodes) when mining SPARQL endpoint data. We stopped considering BNodes as potential seed nodes when sampling instance data from an endpoint. This change prevents errors or invalid SPARQL queries when attempting to retrieve information about such nodes in subsequent queries.
 
-* Change w.r.t. handling BNodes when minign information from SPARQL endpoints. We stop considering them as potential seed nodes when sampling instance data, as this could leed to errors or invalid SPARQL queries when tryin to retrieve information about such nodes in other SPARQL queries.
+* Use of RDF annotations at constraint. SheXer now provides machine-readable and ShEx-compliant examples of each extracted feature, enabling integration with other tools for improved documentation.
 
-* Use of RDF annotations at constraint level within the produced shapes. With this, sheXer is able to provide a machine readable and ShEx compliant example of each extracted feature, which allows to feed further products for better documentation.
-
-* Full support to schema extraction with BNodes with certain types of input. The way in which sheXer processes the graph locally does not require to load the graph in memory nor any endpoint. However, as a trade-off, the graph should be walked twice. This need introduces an issue regarding BNodes, as they lack an indentifier and one cannot ensure with most parsers to be able to reference a certain BNode in a consistat manner in different walsk of a graph. Nevertheless, during this hackathon, we were able to implement a sollution to this problem able to naturally handle BNodes for turtle and NTriples sintaxes. 
+* Support for schema extraction with BNodes from certain inputs. SheXer processes graphs locally without requiring them to be loaded into memory or queried via an endpoint. However, this approach needs traversing the graph twice, posing a challenge when handling BNodes due to their lack of unique identifiers. However, during this hackathon, we implemented a solution to this issue, allowing natural handling of BNodes for Turtle and N-Triples formats.
 
 
 
 ## Conclusions and future work
 
-The approach proposed allows us to extract shapes using the whole information in large sources such as UniProt. We have several lines of future work for this approach:
+The proposed approach enables us to extract shapes from large datasets, such as UniProt, by leveraging the full range of available data. Moving forward, we aim to explore several areas for improvement:
 
-* Propose scalable and adequate startegies to slice the input source, so the subgraphs of each slice are as well-connected and complete as possible.
+* Develop scalable strategies for slicing input sources so that the subgraphs in each slice are as well-connected and complete as possible.
 
-* Complement the schema consolidation not only using the partial schemes extracted, but also ontology information related to domain, range or expected cardinality for certain types of nodes.
+* Enhance schema consolidation by incorporating not only the extracted partial schemas but also relevant ontology information, such as domain, range, or expected cardinality for specific node types.
 
-* Provide a parallelized implementation of this approach to reduce execution times
+* Implement a parallelized version of this approach to reduce execution times.
 
 ## Acknowledgements
 
