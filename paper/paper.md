@@ -1,6 +1,6 @@
 ---
-title: 'BioHack24 report: Using discovered RDF schemes: a compilation of potential use cases for shapes reusage'
-title_short: 'BioHack24 report: Using discovered RDF schemes'
+title: 'BioHack24 report: Toward improving mechanisms for extracting RDF shapes from large inputs'
+title_short: 'BioHack24 report: RDF shapes from large inputs'
 tags:
   - RDF
   - ShEx
@@ -12,33 +12,35 @@ tags:
 authors:
   - name: Daniel Fernández-Álvarez
     affiliation: 1
-    orcid: 0000-0000-0000-0000
-  - name: Jose Emilio Labra Gayo
-    affiliation: 1
-    orcid: 0000-0000-0000-0000
+    orcid: 0000-0002-8666-7660
   - name: Yasunori Yamamoto
     affiliation: 2
-    orcid: 0000-0000-0000-0000
+    orcid: 0000-0002-6943-6887
+  - name: Jose Emilio Labra Gayo
+    affiliation: 1
+    orcid: 0000-0001-8907-5348
   - name: Andra Waagmaaster
-    affiliation: 2
-    orcid: 0000-0000-0000-0000
+    affiliation: 3
+    orcid: 0000-0001-9773-4008
 affiliations:
-  - name: Weso Research Group, University of Oviedo, Spain
+  - name: Weso Research Group, University of Oviedo, Spain.
     index: 1
-  - name: Second Affiliation
+  - name: Database Center for Life Science (DBCLS), University of Tokyo Kashiwa-no-ha Campus Station Satellite 6F. 178-4-4 Wakashiba, Kashiwa-shi, Chiba, Japan.
     index: 2
+  - name: Department of Medical Informatics, University of Amsterdam, The Netherlands.
+    index: 3
 date: 04 September 2024
 cito-bibliography: paper.bib
 event: BH24
 biohackathon_name: "DBCLS BioHackathon 2024"
 biohackathon_url:   "http://2024.biohackathon.org/"
 biohackathon_location: "Fukushima, Japan, 2024"
-group: Project 26
+group: Using (discovered) schemes
 # URL to project git repo --- should contain the actual paper.md:
-git_url: https://github.com/biohackrxiv/publication-template
+git_url: https://github.com/biohackathon-japan/bh24-getting-shapes-from-large-rdf-inputs
 # This is the short authors description that is used at the
 # bottom of the generated paper (typically the first two authors):
-authors_short: First Author \emph{et al.}
+authors_short: Daniel Fernández-Álvarez, Yasunori Yamamoto \emph{et al.}
 ---
 
 
@@ -46,11 +48,11 @@ authors_short: First Author \emph{et al.}
 
 
 
-Shape schemas (SHACL, ShEx) have proven to be effective tools for validating and describing RDF content. However, writing and maintaining RDF schemas can be a time-consuming task, particularly when multiple shapes are involved. To address this challenge, several approaches for automatic schema discovery have been proposed (CITE sheXer, Jerven’s [tool name! how to cite? @Jerven], Consolidation, Astrea, QSE...). 
+Shape schemas (SHACL [@citesAsAuthority:SHACLSpec], ShEx [@citesAsAuthority:prud2014shape]) have proven to be effective tools for validating and describing RDF content. However, writing and maintaining RDF schemas can be a time-consuming task, particularly when multiple shapes are involved. To address this challenge, several approaches for automatic schema discovery have been proposed [@citesAsAuthority:fernandez2022shexer; @citesAsAuthority:Bolleman2023, @citesAsAuthority:fernandez2024extracting; @citesAsAuthority:cimmino2020astrea; @citesAsAuthority:rabbani2023extraction; @citesAsAuthority:keely2023shaclgen; @citesAsAuthority:boneva2019shape; @citesAsAuthority:mihindukulasooriya2018rdf; @citesAsAuthority:groz2022inference; @citesAsAuthority:omran2020towards; @citesAsAuthority:spahiu2018towards; @citesAsAuthority:rabbani2023shactor]. 
 
 These approaches are especially useful when working with large RDF datasets, where manually writing, maintaining, or even understanding schemas becomes significantly more difficult. However, most existing tools for automatic schema discovery encounter performance issues or high hardware requirements when applied to large-scale datasets.
 
-Current established methods for extracting shapes from large datasets mainly rely on sampling or utilizing VOID data. VOID-based approaches generally offer the best performance in terms of execution time and can produce high-quality shapes, provided the VOID data itself is of sufficient quality. However, this method is limited by the need for pre-existing VOID data. On the other hand, sampling-based approaches can extract approximate shapes from any input, but the sample size can impact the quality of the results.
+Current established methods for extracting shapes from large datasets mainly rely on sampling [@citesAsAuthority:fernandez2022shexer; @citesAsAuthority:rabbani2023extraction] or utilizing [VoID](https://www.w3.org/TR/void/) data [@citesAsAuthority:Bolleman2023]. VoID-based approaches generally offer the best performance in terms of execution time and can produce high-quality shapes, provided the VoID data itself is of sufficient quality. However, this method is limited by the need for pre-existing VoID data. On the other hand, sampling-based approaches can extract approximate shapes from any input, but the sample size can impact the quality of the results.
 
 During a previous BioHackathon, we proposed and implemented a prototype for extracting shapes using a different strategy:
 
@@ -58,7 +60,7 @@ During a previous BioHackathon, we proposed and implemented a prototype for extr
 2. We ran the extraction process on each slice.
 3. We merged the resulting schemas into a single, unified schema.
 
-The shape extractor used in the second step was sheXer. The approach, results, and experiments conducted have been published [CITE SWAT4HCLS HERE].
+The shape extractor used in the second step was sheXer. The approach, results, and experiments conducted have been published [@citesAsAuthority:fernandez2024extracting].
 
 
 In this project, we aim to refine this approach and explore new use cases for our prototype.
@@ -66,7 +68,9 @@ In this project, we aim to refine this approach and explore new use cases for ou
 
 # Extracted Schemas
 
-During this hackathon, we successfully extracted schemas from a significant portion of UniProt’s graph. We used 308 different files from UniProt's dump, which we estimate to contain approximately 15.9 G triples. We performed individual extraction processes for each file and subsequently merged the results into a single schema that describes all shapes observed within the dataset. Although we executed each partial extraction sequentially, this process could be easily parallelized. In our case, each extraction ran for more than two days on a server [should we describe the hardware or detail the execution time?] @Yasunori.
+During this hackathon, we successfully extracted schemas from a significant portion of UniProt’s graph. We used 308 different files from UniProt's dump, which we estimate to contain approximately 15.9 G triples. We performed individual extraction processes for each file and subsequently merged the results into a single schema that describes all shapes observed within the dataset. The shapes obtained are publicly available.
+
+Although we executed each partial extraction sequentially, this process could be easily parallelized. In our case, each extraction ran for more than two days on a server [should we describe the hardware or detail the execution time?] @Yasunori.
 
 The results obtained are publicly available [once I fix the consolidator w.r.t. annotations, maybe we should place the shapes somewhere and share them. Maybe in this repository.]@Yasunori
 

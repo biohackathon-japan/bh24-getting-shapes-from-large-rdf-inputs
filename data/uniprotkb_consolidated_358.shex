@@ -1,0 +1,1091 @@
+PREFIX rdfRDFxmlbase: <http://purl.uniprot.org/uniprot/xmlns=http://purl.uniprot.org/core/>
+PREFIX ECO: <http://purl.obolibrary.org/obo/ECO_>
+PREFIX annotation: <http://purl.uniprot.org/annotation/>
+PREFIX citation: <http://purl.uniprot.org/citations/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX disease: <http://purl.uniprot.org/diseases/>
+PREFIX enzyme: <http://purl.uniprot.org/enzyme/>
+PREFIX faldo: <http://biohackathon.org/resource/faldo#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX go: <http://purl.obolibrary.org/obo/GO_>
+PREFIX isoform: <http://purl.uniprot.org/isoforms/>
+PREFIX keyword: <http://purl.uniprot.org/keywords/>
+PREFIX location: <http://purl.uniprot.org/locations/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX position: <http://purl.uniprot.org/position/>
+PREFIX pubmed: <http://purl.uniprot.org/pubmed/>
+PREFIX range: <http://purl.uniprot.org/range/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX taxon: <http://purl.uniprot.org/taxonomy/>
+PREFIX tissue: <http://purl.uniprot.org/tissues/>
+PREFIX : <http://weso.es/shapes/>
+:Function_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Function_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/sequence>  IRI  ?
+}
+
+
+:ExactPosition  [<http://purl.uniprot.org/position/>~]  AND
+{
+    rdf:type  [faldo:ExactPosition]  ;
+    rdf:type  [faldo:Position]  ;
+    faldo:position  <http://www.w3.org/2001/XMLSchema#int>  ;
+    faldo:reference  IRI  
+}
+
+
+:Position  [<http://purl.uniprot.org/position/>~]  AND
+{
+    rdf:type  [faldo:ExactPosition]  ?;
+    rdf:type  [faldo:Position]  ;
+    faldo:position  <http://www.w3.org/2001/XMLSchema#int>  ?;
+    faldo:reference  IRI  
+}
+
+
+:Statement  [<http://purl.uniprot.org/uniprot/#>~]  AND
+{
+    rdf:type  [rdf:Statement]  ;
+    rdf:subject  IRI  ;
+    rdf:predicate  IRI  ;
+    <http://purl.uniprot.org/core/attribution>  IRI  *;
+    rdf:object  IRI  ?;
+    rdf:object  <http://www.w3.org/2001/XMLSchema#string>  *;
+    rdf:type  [<http://purl.uniprot.org/core/Citation_Statement>]  ?;
+    <http://purl.uniprot.org/core/scope>  <http://www.w3.org/2001/XMLSchema#string>  *;
+    <http://purl.uniprot.org/core/context>  IRI  *
+}
+
+
+:Turn_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Turn_Annotation>]  ;
+    <http://purl.uniprot.org/core/range>  @:Region  
+}
+
+
+:Gene  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Gene>]  ;
+    <http://purl.uniprot.org/core/orfName>  <http://www.w3.org/2001/XMLSchema#string>  *;
+    skos:prefLabel  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/locusName>  <http://www.w3.org/2001/XMLSchema#string>  *;
+    skos:altLabel  <http://www.w3.org/2001/XMLSchema#string>  *
+}
+
+
+:Region  [<http://purl.uniprot.org/>~]  AND
+{
+    rdf:type  [faldo:Region]  ;
+    faldo:end  IRI  ?;
+    faldo:begin  IRI  ?
+}
+
+
+:Journal_Citation  [<http://purl.uniprot.org/citations/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Journal_Citation>]  ;
+    <http://purl.uniprot.org/core/author>  <http://www.w3.org/2001/XMLSchema#string>  *;
+    dcterms:identifier  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/title>  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/date>  <http://www.w3.org/2001/XMLSchema#gYear>  ;
+    skos:exactMatch  IRI  *;
+    <http://purl.uniprot.org/core/volume>  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    foaf:primaryTopicOf  IRI  ?;
+    <http://purl.uniprot.org/core/name>  <http://www.w3.org/2001/XMLSchema#string>  ;
+    <http://purl.uniprot.org/core/pages>  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/group>  <http://www.w3.org/2001/XMLSchema#string>  ?
+}
+
+
+:Resource
+{
+    rdf:type  [<http://purl.uniprot.org/core/Resource>]  ;
+    <http://purl.uniprot.org/core/database>  IRI  ?;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  *;
+    <http://purl.uniprot.org/core/signatureSequenceMatch>  IRI  *;
+    <http://purl.uniprot.org/core/translatedFrom>  IRI  *;
+    rdfs:seeAlso  IRI  *
+}
+
+
+:Structured_Name  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Structured_Name>]  ;
+    <http://purl.uniprot.org/core/fullName>  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/ecName>  <http://www.w3.org/2001/XMLSchema#string>  *;
+    <http://purl.uniprot.org/core/shortName>  <http://www.w3.org/2001/XMLSchema#string>  *
+}
+
+
+:Beta_Strand_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Beta_Strand_Annotation>]  ;
+    <http://purl.uniprot.org/core/range>  @:Region  
+}
+
+
+:Chain_Annotation  [<http://purl.uniprot.org/annotation/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Chain_Annotation>]  ;
+    <http://purl.uniprot.org/core/mass>  <http://www.w3.org/2001/XMLSchema#int>  ;
+    <http://purl.uniprot.org/core/range>  @:Region  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?
+}
+
+
+:Region_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Region_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ;
+    <http://purl.uniprot.org/core/range>  @:Region  
+}
+
+
+:Genomic_DNA  [<http://purl.uniprot.org/embl/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Genomic_DNA>]  
+}
+
+
+:Subcellular_Location_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Subcellular_Location_Annotation>]  ;
+    <http://purl.uniprot.org/core/locatedIn>  IRI  *;
+    <http://purl.uniprot.org/core/sequence>  IRI  ?;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?
+}
+
+
+:Citation_Statement  [<http://purl.uniprot.org/uniprot/#>~]  AND
+{
+    rdf:type  [rdf:Statement]  ;
+    rdf:type  [<http://purl.uniprot.org/core/Citation_Statement>]  ;
+    rdf:object  IRI  ;
+    <http://purl.uniprot.org/core/scope>  <http://www.w3.org/2001/XMLSchema#string>  +;
+    rdf:predicate  IRI  ;
+    rdf:subject  @:Protein  ;
+    <http://purl.uniprot.org/core/context>  IRI  *;
+    <http://purl.uniprot.org/core/attribution>  IRI  *
+}
+
+
+:Simple_Sequence  [<http://purl.uniprot.org/isoforms/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Simple_Sequence>]  ;
+    <http://purl.uniprot.org/core/modified>  <http://www.w3.org/2001/XMLSchema#date>  ;
+    <http://purl.uniprot.org/core/mass>  <http://www.w3.org/2001/XMLSchema#int>  ;
+    <http://purl.uniprot.org/core/version>  <http://www.w3.org/2001/XMLSchema#int>  ;
+    rdf:value  <http://www.w3.org/2001/XMLSchema#string>  ;
+    <http://purl.uniprot.org/core/md5Checksum>  <http://www.w3.org/2001/XMLSchema#string>  ;
+    <http://purl.uniprot.org/core/precursor>  <http://www.w3.org/2001/XMLSchema#boolean>  ?;
+    <http://purl.uniprot.org/core/fragment>  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/name>  <http://www.w3.org/2001/XMLSchema#string>  *;
+    rdf:type  [<http://purl.uniprot.org/core/External_Sequence>]  ?
+}
+
+
+:Nucleotide_Resource  [<http://purl.uniprot.org/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Nucleotide_Resource>]  ;
+    <http://purl.uniprot.org/core/locatedOn>  IRI  +;
+    <http://purl.uniprot.org/core/database>  IRI  ;
+    <http://purl.uniprot.org/core/sequenceDiscrepancy>  IRI  *;
+    <http://purl.uniprot.org/core/citation>  IRI  ?
+}
+
+
+:Strain  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Strain>]  ;
+    rdfs:label  <http://www.w3.org/2001/XMLSchema#string>  ?
+}
+
+
+:Helix_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Helix_Annotation>]  ;
+    <http://purl.uniprot.org/core/range>  @:Region  
+}
+
+
+:Similarity_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Similarity_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  
+}
+
+
+:Protein  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    <http://purl.uniprot.org/core/annotation>  IRI  *;
+    rdfs:seeAlso  IRI  *;
+    <http://purl.uniprot.org/core/classifiedWith>  IRI  *;
+    <http://purl.uniprot.org/core/recommendedName>  @:Structured_Name  ?;
+    <http://purl.uniprot.org/core/organism>  IRI  ;
+    rdf:type  [<http://purl.uniprot.org/core/Protein>]  ;
+    <http://purl.uniprot.org/core/created>  <http://www.w3.org/2001/XMLSchema#date>  ;
+    <http://purl.uniprot.org/core/sequence>  IRI  +;
+    <http://purl.uniprot.org/core/attribution>  IRI  *;
+    <http://purl.uniprot.org/core/citation>  IRI  +;
+    <http://purl.uniprot.org/core/modified>  <http://www.w3.org/2001/XMLSchema#date>  ;
+    <http://purl.uniprot.org/core/existence>  IRI  ;
+    <http://purl.uniprot.org/core/encodedBy>  @:Gene  *;
+    <http://purl.uniprot.org/core/version>  <http://www.w3.org/2001/XMLSchema#int>  ;
+    <http://purl.uniprot.org/core/mnemonic>  <http://www.w3.org/2001/XMLSchema#string>  ;
+    <http://purl.uniprot.org/core/reviewed>  <http://www.w3.org/2001/XMLSchema#boolean>  ;
+    <http://purl.uniprot.org/core/proteome>  IRI  *;
+    <http://purl.uniprot.org/core/alternativeName>  @:Structured_Name  *;
+    <http://purl.uniprot.org/core/enzyme>  IRI  *;
+    <http://purl.uniprot.org/core/oldMnemonic>  <http://www.w3.org/2001/XMLSchema#string>  *;
+    <http://purl.uniprot.org/core/conflictingSequence>  @:External_Sequence  *;
+    <http://purl.uniprot.org/core/domain>  @:Part  *;
+    <http://purl.uniprot.org/core/encodedIn>  IRI  *;
+    <http://purl.uniprot.org/core/replaces>  IRI  *;
+    <http://purl.uniprot.org/core/component>  @:Part  *;
+    <http://purl.uniprot.org/core/potentialSequence>  IRI  *;
+    <http://purl.uniprot.org/core/submittedName>  @:Structured_Name  *;
+    <http://purl.uniprot.org/core/interaction>  IRI  *;
+    <http://purl.uniprot.org/core/isolatedFrom>  IRI  *;
+    <http://purl.uniprot.org/core/complete>  <http://www.w3.org/2001/XMLSchema#boolean>  ?
+}
+
+
+:Binding_Site_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    <http://purl.uniprot.org/core/range>  @:Region  ;
+    rdf:type  [<http://purl.uniprot.org/core/Binding_Site_Annotation>]  ;
+    <http://purl.uniprot.org/core/ligand>  IRI  ;
+    <http://purl.uniprot.org/core/ligandPart>  IRI  ?;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?
+}
+
+
+:Structure_Resource  [<http://rdf.wwpdb.org/pdb/>~]  AND
+{
+    <http://purl.uniprot.org/core/chainSequenceMapping>  IRI  *;
+    <http://purl.uniprot.org/core/database>  IRI  ;
+    rdf:type  [<http://purl.uniprot.org/core/Structure_Resource>]  ;
+    <http://purl.uniprot.org/core/method>  IRI  *;
+    <http://purl.uniprot.org/core/resolution>  <http://www.w3.org/2001/XMLSchema#decimal>  *
+}
+
+
+:Subunit_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Subunit_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ;
+    <http://purl.uniprot.org/core/sequence>  IRI  ?
+}
+
+
+:Domain_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Domain_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/sequence>  IRI  ?;
+    rdfs:comment  LITERAL  ?
+}
+
+
+:Activity_Regulation_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ;
+    rdf:type  [<http://purl.uniprot.org/core/Activity_Regulation_Annotation>]  ;
+    <http://purl.uniprot.org/core/sequence>  IRI  ?
+}
+
+
+:Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    rdf:type  [<http://purl.uniprot.org/core/Annotation>]  ;
+    <http://purl.uniprot.org/core/sequence>  IRI  ?
+}
+
+
+:Cofactor_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Cofactor_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/cofactor>  IRI  *;
+    <http://purl.uniprot.org/core/sequence>  IRI  ?
+}
+
+
+:Ontology  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    owl:imports  IRI  ;
+    rdf:type  [owl:Ontology]  
+}
+
+
+:Cross-link_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Cross-link_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ;
+    <http://purl.uniprot.org/core/range>  @:Region  +
+}
+
+
+:PTM_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/PTM_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/sequence>  IRI  ?;
+    rdfs:comment  LITERAL  ?
+}
+
+
+:Compositional_Bias_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Compositional_Bias_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ;
+    <http://purl.uniprot.org/core/range>  @:Region  
+}
+
+
+:Modified_Residue_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ;
+    rdf:type  [<http://purl.uniprot.org/core/Modified_Residue_Annotation>]  ;
+    <http://purl.uniprot.org/core/range>  @:Region  
+}
+
+
+:Domain_Extent_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    <http://purl.uniprot.org/core/range>  @:Region  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ;
+    rdf:type  [<http://purl.uniprot.org/core/Domain_Extent_Annotation>]  
+}
+
+
+:Transmembrane_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Transmembrane_Annotation>]  ;
+    <http://purl.uniprot.org/core/range>  @:Region  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?
+}
+
+
+:Catalytic_Activity_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Catalytic_Activity_Annotation>]  ;
+    <http://purl.uniprot.org/core/catalyticActivity>  @:Catalytic_Activity  ;
+    <http://purl.uniprot.org/core/catalyzedPhysiologicalReaction>  IRI  *;
+    <http://purl.uniprot.org/core/sequence>  @:Chain_Annotation  ?
+}
+
+
+:Catalytic_Activity  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    <http://purl.uniprot.org/core/catalyzedReaction>  IRI  ?;
+    rdf:type  [<http://purl.uniprot.org/core/Catalytic_Activity>]  ;
+    <http://purl.uniprot.org/core/enzymeClass>  IRI  ?;
+    skos:closeMatch  IRI  ?
+}
+
+
+:Active_Site_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Active_Site_Annotation>]  ;
+    <http://purl.uniprot.org/core/range>  @:Region  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?
+}
+
+
+:Temperature_Dependence_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Temperature_Dependence_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ;
+    <http://purl.uniprot.org/core/sequence>  @:Chain_Annotation  ?
+}
+
+
+:Pathway_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdfs:seeAlso  IRI  ;
+    rdf:type  [<http://purl.uniprot.org/core/Pathway_Annotation>]  
+}
+
+
+:PH_Dependence_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ;
+    rdf:type  [<http://purl.uniprot.org/core/PH_Dependence_Annotation>]  ;
+    <http://purl.uniprot.org/core/sequence>  @:Chain_Annotation  ?
+}
+
+
+:Induction_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Induction_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  
+}
+
+
+:Kinetics_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Kinetics_Annotation>]  ;
+    <http://purl.uniprot.org/core/measuredActivity>  <http://www.w3.org/2001/XMLSchema#string>  *;
+    <http://purl.uniprot.org/core/measuredAffinity>  <http://www.w3.org/2001/XMLSchema#string>  *;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/sequence>  IRI  ?
+}
+
+
+:Non-terminal_Residue_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Non-terminal_Residue_Annotation>]  ;
+    <http://purl.uniprot.org/core/range>  @:Region  
+}
+
+
+:InRangePosition  [<http://purl.uniprot.org/position/>~]  AND
+{
+    rdf:type  [faldo:InRangePosition]  ;
+    rdf:type  [faldo:Position]  ;
+    faldo:begin  IRI  ?;
+    faldo:reference  IRI  ;
+    faldo:end  IRI  ?
+}
+
+
+:Submission_Citation  [<http://purl.uniprot.org/citations/>~]  AND
+{
+    <http://purl.uniprot.org/core/author>  <http://www.w3.org/2001/XMLSchema#string>  *;
+    <http://purl.uniprot.org/core/title>  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/submittedTo>  <http://www.w3.org/2001/XMLSchema#string>  ;
+    <http://purl.uniprot.org/core/group>  <http://www.w3.org/2001/XMLSchema#string>  *;
+    rdf:type  [<http://purl.uniprot.org/core/Submission_Citation>]  ;
+    <http://purl.uniprot.org/core/date>  <http://www.w3.org/2001/XMLSchema#gYearMonth>  
+}
+
+
+:Signal_Peptide_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    <http://purl.uniprot.org/core/range>  @:Region  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    rdf:type  [<http://purl.uniprot.org/core/Signal_Peptide_Annotation>]  
+}
+
+
+:Mutagenesis_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Mutagenesis_Annotation>]  ;
+    <http://purl.uniprot.org/core/substitution>  <http://www.w3.org/2001/XMLSchema#string>  +;
+    <http://purl.uniprot.org/core/range>  @:Region  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  
+}
+
+
+:Disulfide_Bond_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Disulfide_Bond_Annotation>]  ;
+    <http://purl.uniprot.org/core/range>  @:Region  +;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?
+}
+
+
+:Topological_Domain_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Topological_Domain_Annotation>]  ;
+    <http://purl.uniprot.org/core/range>  @:Region  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  
+}
+
+
+:Biotechnology_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Biotechnology_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/sequence>  @:Chain_Annotation  ?
+}
+
+
+:Site_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Site_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ;
+    <http://purl.uniprot.org/core/range>  @:Region  
+}
+
+
+:Repeat_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Repeat_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/range>  @:Region  
+}
+
+
+:Caution_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Caution_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  
+}
+
+
+:Tissue_Specificity_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Tissue_Specificity_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  
+}
+
+
+:Motif_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Motif_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ;
+    <http://purl.uniprot.org/core/range>  @:Region  
+}
+
+
+:Part  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Part>]  ;
+    <http://purl.uniprot.org/core/recommendedName>  @:Structured_Name  ;
+    <http://purl.uniprot.org/core/enzyme>  IRI  *;
+    <http://purl.uniprot.org/core/alternativeName>  @:Structured_Name  *
+}
+
+
+:Mass_Spectrometry_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    <http://purl.uniprot.org/core/method>  IRI  ?;
+    <http://purl.uniprot.org/core/measuredValue>  <http://www.w3.org/2001/XMLSchema#decimal>  ;
+    rdf:type  [<http://purl.uniprot.org/core/Mass_Spectrometry_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/measuredError>  <http://www.w3.org/2001/XMLSchema#decimal>  ?;
+    <http://purl.uniprot.org/core/sequence>  IRI  ?
+}
+
+
+:Tissue  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdfs:label  <http://www.w3.org/2001/XMLSchema#string>  *;
+    rdf:type  [<http://purl.uniprot.org/core/Tissue>]  
+}
+
+
+:Erroneous_Initiation_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Erroneous_Initiation_Annotation>]  ;
+    <http://purl.uniprot.org/core/conflictingSequence>  @:External_Sequence  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?
+}
+
+
+:External_Sequence  [<http://purl.uniprot.org/>~]  AND
+{
+    <http://purl.uniprot.org/core/translatedFrom>  @:Nucleotide_Resource  ?;
+    rdf:type  [<http://purl.uniprot.org/core/External_Sequence>]  ;
+    <http://purl.uniprot.org/core/citation>  IRI  ?;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/name>  <http://www.w3.org/2001/XMLSchema#string>  *;
+    rdf:value  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    rdf:type  [<http://purl.uniprot.org/core/Simple_Sequence>]  ?;
+    <http://purl.uniprot.org/core/modified>  <http://www.w3.org/2001/XMLSchema#date>  ?;
+    <http://purl.uniprot.org/core/mass>  <http://www.w3.org/2001/XMLSchema#int>  ?;
+    <http://purl.uniprot.org/core/version>  <http://www.w3.org/2001/XMLSchema#int>  ?;
+    <http://purl.uniprot.org/core/md5Checksum>  <http://www.w3.org/2001/XMLSchema#string>  ?
+}
+
+
+:Transcript_Resource
+{
+    rdf:type  [<http://purl.uniprot.org/core/Transcript_Resource>]  ;
+    <http://purl.uniprot.org/core/translatedTo>  IRI  +;
+    <http://purl.uniprot.org/core/transcribedFrom>  IRI  *;
+    <http://purl.uniprot.org/core/database>  IRI  +;
+    rdfs:seeAlso  IRI  ?;
+    owl:sameAs  IRI  *;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  *
+}
+
+
+:Coiled_Coil_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Coiled_Coil_Annotation>]  ;
+    <http://purl.uniprot.org/core/range>  @:Region  
+}
+
+
+:Zinc_Finger_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/range>  @:Region  ;
+    rdf:type  [<http://purl.uniprot.org/core/Zinc_Finger_Annotation>]  
+}
+
+
+:Propeptide_Annotation  [<http://purl.uniprot.org/annotation/>~]  AND
+{
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/range>  @:Region  ;
+    rdf:type  [<http://purl.uniprot.org/core/Propeptide_Annotation>]  
+}
+
+
+:Lipidation_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Lipidation_Annotation>]  ;
+    <http://purl.uniprot.org/core/range>  @:Region  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  
+}
+
+
+:Sequence_Conflict_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Sequence_Conflict_Annotation>]  ;
+    <http://purl.uniprot.org/core/range>  @:Region  ;
+    <http://purl.uniprot.org/core/conflictingSequence>  @:External_Sequence  ;
+    <http://purl.uniprot.org/core/substitution>  <http://www.w3.org/2001/XMLSchema#string>  
+}
+
+
+:Initiator_Methionine_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Initiator_Methionine_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ;
+    <http://purl.uniprot.org/core/range>  @:Region  
+}
+
+
+:Non-adjacent_Residues_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Non-adjacent_Residues_Annotation>]  ;
+    <http://purl.uniprot.org/core/range>  @:Region  
+}
+
+
+:Plasmid  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Plasmid>]  ;
+    rdfs:label  <http://www.w3.org/2001/XMLSchema#string>  *
+}
+
+
+:Natural_Variant_Annotation  [<http://purl.uniprot.org/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Natural_Variant_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/substitution>  <http://www.w3.org/2001/XMLSchema#string>  ;
+    <http://purl.uniprot.org/core/range>  @:Region  ;
+    rdfs:seeAlso  IRI  *;
+    skos:related  IRI  *
+}
+
+
+:OneOfPosition  [<http://purl.uniprot.org/position/>~]  AND
+{
+    rdf:type  [faldo:OneOfPosition]  ;
+    rdf:type  [faldo:Position]  ;
+    faldo:reference  IRI  ;
+    faldo:possiblePosition  IRI  
+}
+
+
+:Disruption_Phenotype_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ;
+    rdf:type  [<http://purl.uniprot.org/core/Disruption_Phenotype_Annotation>]  
+}
+
+
+:Nucleotide_Binding_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Nucleotide_Binding_Annotation>]  ;
+    <http://purl.uniprot.org/core/range>  @:Region  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?
+}
+
+
+:Patent_Citation  [<http://purl.uniprot.org/citations/>~]  AND
+{
+    <http://purl.uniprot.org/core/author>  <http://www.w3.org/2001/XMLSchema#string>  +;
+    skos:exactMatch  IRI  ;
+    rdf:type  [<http://purl.uniprot.org/core/Patent_Citation>]  ;
+    <http://purl.uniprot.org/core/date>  <http://www.w3.org/2001/XMLSchema#date>  ;
+    <http://purl.uniprot.org/core/title>  <http://www.w3.org/2001/XMLSchema#string>  ?
+}
+
+
+:Pharmaceutical_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Pharmaceutical_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  
+}
+
+
+:Frameshift_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    <http://purl.uniprot.org/core/conflictingSequence>  @:External_Sequence  ;
+    rdf:type  [<http://purl.uniprot.org/core/Frameshift_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?
+}
+
+
+:Participant  [<http://purl.uniprot.org/intact/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Participant>]  ;
+    rdfs:label  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    owl:sameAs  IRI  
+}
+
+
+:Erroneous_Termination_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Erroneous_Termination_Annotation>]  ;
+    <http://purl.uniprot.org/core/conflictingSequence>  @:External_Sequence  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  
+}
+
+
+:Self_Interaction  [<http://purl.uniprot.org/intact/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Self_Interaction>]  ;
+    rdf:type  [<http://purl.uniprot.org/core/Interaction>]  ;
+    <http://purl.uniprot.org/core/participant>  @:Participant  ;
+    <http://purl.uniprot.org/core/experiments>  <http://www.w3.org/2001/XMLSchema#int>  ;
+    <http://purl.uniprot.org/core/xeno>  <http://www.w3.org/2001/XMLSchema#boolean>  
+}
+
+
+:Interaction  [<http://purl.uniprot.org/intact/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Self_Interaction>]  ?;
+    rdf:type  [<http://purl.uniprot.org/core/Interaction>]  ;
+    <http://purl.uniprot.org/core/participant>  @:Participant  +;
+    <http://purl.uniprot.org/core/experiments>  <http://www.w3.org/2001/XMLSchema#int>  ;
+    <http://purl.uniprot.org/core/xeno>  <http://www.w3.org/2001/XMLSchema#boolean>  ;
+    rdf:type  [<http://purl.uniprot.org/core/Non_Self_Interaction>]  ?
+}
+
+
+:Redox_Potential_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Redox_Potential_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  
+}
+
+
+:Observation_Citation  [<http://purl.uniprot.org/citations/>~]  AND
+{
+    <http://purl.uniprot.org/core/author>  <http://www.w3.org/2001/XMLSchema#string>  *;
+    rdf:type  [<http://purl.uniprot.org/core/Observation_Citation>]  ;
+    <http://purl.uniprot.org/core/date>  <http://www.w3.org/2001/XMLSchema#gYearMonth>  ;
+    <http://purl.uniprot.org/core/group>  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/title>  <http://www.w3.org/2001/XMLSchema#string>  ?
+}
+
+
+:MRNA  [<http://purl.uniprot.org/embl/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/MRNA>]  
+}
+
+
+:Alternative_Initiation_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Alternative_Initiation_Annotation>]  ;
+    <http://purl.uniprot.org/core/sequence>  IRI  +;
+    rdf:type  [<http://purl.uniprot.org/core/Alternative_Splicing_Annotation>]  ?;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?
+}
+
+
+:Modified_Sequence  [<http://purl.uniprot.org/isoforms/>~]  AND
+{
+    <http://purl.uniprot.org/core/basedOn>  IRI  ;
+    <http://purl.uniprot.org/core/name>  <http://www.w3.org/2001/XMLSchema#string>  +;
+    <http://purl.uniprot.org/core/modification>  @:Alternative_Sequence_Annotation  +;
+    rdf:type  [<http://purl.uniprot.org/core/Modified_Sequence>]  ;
+    rdf:value  <http://www.w3.org/2001/XMLSchema#string>  ;
+    rdf:type  [<http://purl.uniprot.org/core/External_Sequence>]  ?
+}
+
+
+:Alternative_Sequence_Annotation  [<http://purl.uniprot.org/annotation/>~]  AND
+{
+    <http://purl.uniprot.org/core/substitution>  <http://www.w3.org/2001/XMLSchema#string>  ;
+    <http://purl.uniprot.org/core/range>  @:Region  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ;
+    rdf:type  [<http://purl.uniprot.org/core/Alternative_Sequence_Annotation>]  
+}
+
+
+:Transit_Peptide_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Transit_Peptide_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ;
+    <http://purl.uniprot.org/core/range>  @:Region  
+}
+
+
+:Transcribed_RNA  [<http://purl.uniprot.org/embl/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Transcribed_RNA>]  
+}
+
+
+:Intramembrane_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Intramembrane_Annotation>]  ;
+    <http://purl.uniprot.org/core/range>  @:Region  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?
+}
+
+
+:Non-standard_Residue_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    <http://purl.uniprot.org/core/range>  @:Region  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ;
+    rdf:type  [<http://purl.uniprot.org/core/Non-standard_Residue_Annotation>]  
+}
+
+
+:Book_Citation  [<http://purl.uniprot.org/citations/>~]  AND
+{
+    <http://purl.uniprot.org/core/author>  <http://www.w3.org/2001/XMLSchema#string>  +;
+    <http://purl.uniprot.org/core/name>  <http://www.w3.org/2001/XMLSchema#string>  ;
+    <http://purl.uniprot.org/core/editor>  <http://www.w3.org/2001/XMLSchema#string>  *;
+    <http://purl.uniprot.org/core/title>  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    dcterms:identifier  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/date>  <http://www.w3.org/2001/XMLSchema#gYear>  ;
+    rdf:type  [<http://purl.uniprot.org/core/Book_Citation>]  ;
+    <http://purl.uniprot.org/core/publisher>  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/pages>  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/place>  <http://www.w3.org/2001/XMLSchema#string>  ;
+    <http://purl.uniprot.org/core/volume>  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/group>  <http://www.w3.org/2001/XMLSchema#string>  ?
+}
+
+
+:Developmental_Stage_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Developmental_Stage_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  
+}
+
+
+:Non_Self_Interaction  [<http://purl.uniprot.org/intact/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Interaction>]  ;
+    rdf:type  [<http://purl.uniprot.org/core/Non_Self_Interaction>]  ;
+    <http://purl.uniprot.org/core/participant>  @:Participant  {2};
+    <http://purl.uniprot.org/core/xeno>  <http://www.w3.org/2001/XMLSchema#boolean>  ;
+    <http://purl.uniprot.org/core/experiments>  <http://www.w3.org/2001/XMLSchema#int>  
+}
+
+
+:Unassigned_DNA  [<http://purl.uniprot.org/embl/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Unassigned_DNA>]  ;
+    rdf:type  [<http://purl.uniprot.org/core/Genomic_DNA>]  ?
+}
+
+
+:Sequence_Caution_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/conflictingSequence>  @:External_Sequence  ;
+    rdf:type  [<http://purl.uniprot.org/core/Sequence_Caution_Annotation>]  
+}
+
+
+:Peptide_Annotation  [<http://purl.uniprot.org/annotation/>~]  AND
+{
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ;
+    <http://purl.uniprot.org/core/range>  @:Region  ;
+    rdf:type  [<http://purl.uniprot.org/core/Peptide_Annotation>]  
+}
+
+
+:Electronic_Citation  [<http://purl.uniprot.org/citations/>~]  AND
+{
+    <http://purl.uniprot.org/core/title>  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/author>  <http://www.w3.org/2001/XMLSchema#string>  +;
+    <http://purl.uniprot.org/core/locator>  <http://www.w3.org/2001/XMLSchema#string>  ;
+    <http://purl.uniprot.org/core/name>  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/date>  <http://www.w3.org/2001/XMLSchema#gYear>  ?;
+    rdf:type  [<http://purl.uniprot.org/core/Electronic_Citation>]  ;
+    skos:exactMatch  IRI  ?;
+    dcterms:identifier  <http://www.w3.org/2001/XMLSchema#string>  ?
+}
+
+
+:Glycosylation_Annotation  [<http://purl.uniprot.org/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Glycosylation_Annotation>]  ;
+    <http://purl.uniprot.org/core/range>  @:Region  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  
+}
+
+
+:Sequence_Uncertainty_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    <http://purl.uniprot.org/core/range>  @:Region  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    rdf:type  [<http://purl.uniprot.org/core/Sequence_Uncertainty_Annotation>]  
+}
+
+
+:RNA_Editing_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/RNA_Editing_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/frameshift>  <http://www.w3.org/2001/XMLSchema#boolean>  ?;
+    faldo:location  IRI  *
+}
+
+
+:Erroneous_Gene_Model_Prediction_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Erroneous_Gene_Model_Prediction_Annotation>]  ;
+    <http://purl.uniprot.org/core/conflictingSequence>  @:External_Sequence  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?
+}
+
+
+:Alternative_Splicing_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    <http://purl.uniprot.org/core/sequence>  IRI  +;
+    rdf:type  [<http://purl.uniprot.org/core/Alternative_Splicing_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    rdf:type  [<http://purl.uniprot.org/core/Alternative_Initiation_Annotation>]  ?
+}
+
+
+:Polymorphism_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ;
+    rdf:type  [<http://purl.uniprot.org/core/Polymorphism_Annotation>]  ;
+    <http://purl.uniprot.org/core/sequence>  @:Chain_Annotation  ?
+}
+
+
+:Thesis_Citation  [<http://purl.uniprot.org/citations/>~]  AND
+{
+    <http://purl.uniprot.org/core/title>  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/author>  <http://www.w3.org/2001/XMLSchema#string>  +;
+    <http://purl.uniprot.org/core/institution>  <http://www.w3.org/2001/XMLSchema#string>  ;
+    rdf:type  [<http://purl.uniprot.org/core/Thesis_Citation>]  ;
+    <http://purl.uniprot.org/core/date>  <http://www.w3.org/2001/XMLSchema#gYear>  ;
+    <http://purl.uniprot.org/core/place>  <http://www.w3.org/2001/XMLSchema#string>  ?
+}
+
+
+:Absorption_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    <http://purl.uniprot.org/core/maximum>  <http://www.w3.org/2001/XMLSchema#int>  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    rdf:type  [<http://purl.uniprot.org/core/Absorption_Annotation>]  ;
+    <http://purl.uniprot.org/core/certain>  <http://www.w3.org/2001/XMLSchema#boolean>  ?
+}
+
+
+:Ribosomal_Frameshifting  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Ribosomal_Frameshifting>]  ;
+    <http://purl.uniprot.org/core/sequence>  IRI  +;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    rdf:type  [<http://purl.uniprot.org/core/Alternative_Splicing_Annotation>]  ?
+}
+
+
+:Unassigned_RNA  [<http://purl.uniprot.org/embl/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Unassigned_RNA>]  
+}
+
+
+:Transposon  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Transposon>]  ;
+    rdfs:label  <http://www.w3.org/2001/XMLSchema#string>  
+}
+
+
+:Erroneous_Translation_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Erroneous_Translation_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?;
+    <http://purl.uniprot.org/core/conflictingSequence>  @:External_Sequence  
+}
+
+
+:Genomic_RNA  [<http://purl.uniprot.org/embl/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Genomic_RNA>]  ;
+    rdf:type  [<http://purl.uniprot.org/core/Genomic_DNA>]  ?
+}
+
+
+:Viral_cRNA  [<http://purl.uniprot.org/embl/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Viral_cRNA>]  
+}
+
+
+:Unknown_Sequence  [<http://purl.uniprot.org/isoforms/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Unknown_Sequence>]  ;
+    <http://purl.uniprot.org/core/name>  <http://www.w3.org/2001/XMLSchema#string>  +;
+    rdf:type  [<http://purl.uniprot.org/core/External_Sequence>]  ?
+}
+
+
+:Other_RNA  [<http://purl.uniprot.org/embl/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Other_RNA>]  ;
+    rdf:type  [<http://purl.uniprot.org/core/Genomic_RNA>]  ?
+}
+
+
+:Alternative_Promoter_Usage_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Alternative_Promoter_Usage_Annotation>]  ;
+    <http://purl.uniprot.org/core/sequence>  IRI  +;
+    rdf:type  [<http://purl.uniprot.org/core/Alternative_Initiation_Annotation>]  ?;
+    rdf:type  [<http://purl.uniprot.org/core/Alternative_Splicing_Annotation>]  ?;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ?
+}
+
+
+:Allergen_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Allergen_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  
+}
+
+
+:Toxic_Dose_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Toxic_Dose_Annotation>]  ;
+    rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  
+}
+
+
+:Other_DNA  [<http://purl.uniprot.org/embl/>~]  AND
+{
+    rdf:type  [<http://purl.uniprot.org/core/Other_DNA>]  
+}
+
+
+:Disease_Annotation  [<http://purl.uniprot.org/uniprot/>~]  AND   # 8462 instances.  Instance example: 'http://purl.uniprot.org/uniprot/Q08828#SIP57DC6AD02714BBC2'
+{
+   rdf:type  [<http://purl.uniprot.org/core/Disease_Annotation>]  ;          # 100.0 % (8462 instances).
+   rdfs:comment  <http://www.w3.org/2001/XMLSchema#string>  ;          # 100.0 % (8462 instances).
+            # Node constraint example: 'A chromosomal aberration involving TPR has been found in papillary thyroid carcinomas (PTCs). Intrachromosomal rearrangement that links the 5'-end of the TPR gene to the protein kinase domain of NTRK1 forms the fusion protein TRK-T1. TRK-T1 is a 55 kDa protein reacting with antibodies against the carboxy terminus of the NTRK1 protein.'
+   <http://purl.uniprot.org/core/disease>  IRI  ?
+            # Node constraint example: 'disease:800'
+            # 83.26636728905696 % (7046 instances). obj: IRI. Cardinality: {1}
+}
+
+
