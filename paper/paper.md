@@ -35,7 +35,7 @@ event: BH24
 biohackathon_name: "DBCLS BioHackathon 2024"
 biohackathon_url:   "http://2024.biohackathon.org/"
 biohackathon_location: "Fukushima, Japan, 2024"
-group: Using (discovered) schemes
+group: Getting shapes from large RDF inputs
 # URL to project git repo --- should contain the actual paper.md:
 git_url: https://github.com/biohackathon-japan/bh24-getting-shapes-from-large-rdf-inputs
 # This is the short authors description that is used at the
@@ -68,44 +68,43 @@ In this project, we aim to refine this approach and explore new use cases for ou
 
 # Extracted Schemas
 
-During this hackathon, we successfully extracted schemas from a significant portion of UniProt’s graph. We used 358 different files from UniProt's dump, which we estimate to contain approximately 15.9 G triples. Speciphically, we used every file from the Uniprot release (dated tentyfifth of August, 2024) whose name starts by 'uniprotkb_reviewed_' or 'uniprotkb_unreviewed_'at  from a [Uniprot's dump](https://rdfportal.org/download/uniprot/20240826/).
+During this hackathon, we successfully extracted schemas from a substantial portion of UniProt’s graph. We used 358 different files from UniProt's dump, which we estimate to contain approximately 15.9 billion triples. Specifically, we used all files from the UniProt release (dated August 25th, 2024) whose names begin with 'uniprotkb_reviewed_' or 'uniprotkb_unreviewed_' from a [UniProt's dump](https://rdfportal.org/download/uniprot/20240826/).
 
 
-We performed individual extraction processes for each file and subsequently merged the results into a single schema that describes all shapes observed within the dataset. The [shapes obtained](https://github.com/biohackathon-japan/bh24-getting-shapes-from-large-rdf-inputs/blob/main/data/uniprotkb_consolidated_358.shex) are publicly available.
+We performed individual extraction processes for each file and then merged the results into a single schema that describes all shapes observed within the dataset. The [extracted shapes](https://github.com/biohackathon-japan/bh24-getting-shapes-from-large-rdf-inputs/blob/main/data/uniprotkb_consolidated_358.shex) are publicly available.
 
-We would like to highlight several facts about this experience extracting shapes form such a huge source that can help us to guide future efforts improving this approach.
+We would like to highlight several insights from this experience of extracting shapes from such a large source, which can guide future efforts to improve this approach:
 
-* The extraction process lasted for several days. Even if the partial extractions over each data slice could be performed independently, our current prototype uses a sequential approach. This should be tackled in order to reduce execution time.
+* The extraction process took several days. While partial extractions for each data slice could be performed independently, our current prototype uses a sequential approach. Addressing this limitation is essential for reducing execution time.
 
-* We noticed that the resulting shapes obtained when only 262 out of 358 files were processes were identical to the one sobtained after processing the whole input data. Although this behaviour cannot be generalized to every input source, it could be useful also to integrate convergence detection mechanisms in our process to avoid exploring likely redudant data. With that we could also reduce executime time. 
+* We observed that the shapes extracted from only 262 out of the 358 files were identical to those obtained from processing the entire dataset. Although this behavior cannot be generalized to all input sources, it suggests that incorporating convergence detection mechanisms into our process could help avoid exploring redundant data, potentially reducing execution time.
 
-* Our current prototype runs on top of sheXer extractor, which has a  influence on the proces in several ways:
+* Our current prototype is based on the sheXer extractor, which influences the process in several ways:
   
-  * sheXer is able to produce statistics of the constraints extracted, as well as examples of nodes confirming with a shape of objecs conforming with the object position in a triple constraint. However, our current prototype is not always able to keep that information while merging different versions of a shape. We have detected that the integration between sheXer and our prototype could be improved in order to keep such potentially usefil information.
+  * sheXer produces statistics on the extracted constraints, as well as examples of nodes conforming to a shape and objects conforming to the object position in a triple constraint. However, our prototype does not always retain this information when merging different versions of a shape. Improving the integration between sheXer and our prototype could help preserve this valuable data.
   
-  * Due to sheXer's internal RDF parsers when handling local data, the format of the input data can have a determinant impact on the process' performance. In this case, the data used was serialized in RDF/XML, which causes sheXer to use an [rdflib](https://rdflib.readthedocs.io/en/stable/) parser more uneficent and demanding with memory compared to the parsers used for turtle of n-triples formats. We aim to work with different parsers in order to improve the performance of this task with such types of inputs.
+  * Due to sheXer's internal RDF parsers, the format of the input data significantly impacts performance. In this case, the input data was serialized in RDF/XML, causing sheXer to use an [rdflib](https://rdflib.readthedocs.io/en/stable/) parser that is less efficient and more memory-intensive compared to the parsers used for Turtle or N-Triples formats. We plan to experiment with different parsers to improve performance for these types of inputs.
 
-  * We have discussed the effect on the performance of having sheXer fully implemented in an interpreted programming language such as Python. We aim to produce an equivalent implementation in a compiled language such as Rust to experiment with that.
+  * We discussed the performance implications of sheXer being fully implemented in an interpreted language like Python. We plan to develop an equivalent implementation in a compiled language, such as Rust, to explore potential performance improvements.
 
 
 # Process improvements
 
-During this BioHackathon, we introduced several enhancements to sheXer, the library used for schema extraction. These improvements enhanced the quality of the extracted schemas and streamlined the integration of different components in the workflow for schema consolidation. The key improvements include:
+During this BioHackathon, we introduced several enhancements to sheXer, the library used for schema extraction. These improvements increased the quality of the extracted schemas and streamlined the workflow for schema consolidation. The key improvements include:
 
 
-* Modification of log output channels. Log messages are no longer sent to the standard output, potentially alongside the extracted schemas. This change facilitates better integration with other tools and workflows.
+* Modified log output channels. Log messages are no longer sent to standard output alongside the extracted schemas, improving integration with other tools and workflows.
 
-* Handling of blank nodes (BNodes) when mining SPARQL endpoint data. We stopped considering BNodes as potential seed nodes when sampling instance data from an endpoint. This change prevents errors or invalid SPARQL queries when attempting to retrieve information about such nodes in subsequent queries.
+* Enhanced handling of blank nodes (BNodes) when mining SPARQL endpoint data. We stopped considering BNodes as potential seed nodes when sampling instance data from an endpoint. This change prevents errors or invalid SPARQL queries when attempting to retrieve information about such nodes in subsequent queries.
 
-* Use of RDF annotations at constraint-level. sheXer now provides machine-readable and ShEx-compliant examples of each extracted feature, enabling integration with other tools for improved documentation.
+* Added RDF annotations at constraint level. sheXer now provides machine-readable, ShEx-compliant examples of each extracted feature, allowing integration with other tools for better documentation.
 
-* Support for schema extraction with BNodes from certain inputs. sheXer processes graphs locally without requiring them to be loaded into memory or queried via an endpoint. This approach needs traversing the graph twice, posing a challenge when handling BNodes due to their lack of unique identifiers. However, during this hackathon, we implemented a solution to this issue, allowing natural handling of BNodes for Turtle and N-Triples formats.
-
+* Supported schema extraction involving BNodes from certain inputs. sheXer processes graphs locally without loading them entirely into memory or querying them via an endpoint. This approach requires traversing the graph twice, which is challenging when handling BNodes due to their lack of unique identifiers. During this hackathon, we implemented a solution that allows natural handling of BNodes in Turtle and N-Triples formats.
 
 
 # Conclusions and future work
 
-The proposed approach enables us to extract shapes from large datasets, such as UniProt, by leveraging the full range of available data. Moving forward, we aim to explore several areas for improvement:
+The proposed approach enables us to extract shapes from large datasets, such as UniProt, by leveraging the full range of available data. For future work, we aim to explore several areas for improvement:
 
 * Develop scalable strategies for slicing input sources so that the subgraphs in each slice are as well-connected and complete as possible.
 
@@ -113,9 +112,11 @@ The proposed approach enables us to extract shapes from large datasets, such as 
 
 * Implement a parallelized version of this approach to reduce execution times.
 
+* Work on on identified areas to improve the performance of the individual shape extraction processes.
+
 # Acknowledgements
 
-Many thanks are due to the organisers of BioHackathon 2024 and to the DBCLS for organising an extremely useful event to test out new ideas, build new collaborations, and reinforce existing ones.
+We extend our sincere thanks to the organizers of BioHackathon 2024 and to the DBCLS for hosting such a valuable event, which provided a great platform to test new ideas, build collaborations, and reinforce existing ones.
 
 
 # References
