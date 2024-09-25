@@ -112,7 +112,7 @@ The proposed approach enables us to extract shapes from large datasets, such as 
 
 * Implement a parallelized version of this approach to reduce execution times.
 
-* Work on on identified areas to improve the performance of the individual shape extraction processes.
+* Work on identified areas to improve the performance of the individual shape extraction processes.
 
 # Acknowledgements
 
