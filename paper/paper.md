@@ -25,7 +25,7 @@ authors:
 affiliations:
   - name: Weso Research Group, University of Oviedo, Spain.
     index: 1
-  - name: Database Center for Life Science (DBCLS), University of Tokyo Kashiwa-no-ha Campus Station Satellite 6F. 178-4-4 Wakashiba, Kashiwa-shi, Chiba, Japan.
+  - name: Database Center for Life Science (DBCLS), ROIS-DS, Kashiwa, Chiba, Japan
     index: 2
   - name: Department of Medical Informatics, University of Amsterdam, The Netherlands.
     index: 3
