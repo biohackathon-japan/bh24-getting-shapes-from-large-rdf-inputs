@@ -42,10 +42,13 @@ git_url: https://github.com/biohackathon-japan/bh24-getting-shapes-from-large-rd
 # bottom of the generated paper (typically the first two authors):
 authors_short: Daniel Fernández-Álvarez, Yasunori Yamamoto \emph{et al.}
 ---
+# Abstract
 
+RDF shapes have proven to be effective mechanisms for describing and validating RDF content. Typically, shapes are written by domain experts. However, writing and maintaining these shapes can be challenging when dealing with large and complex schemas. To address this issue, automatic shape extractors have been proposed. These tools are designed to analyze existing RDF content and generate shapes that conform with the underlying schemas. Nevertheless, extracting shapes from large datasets presents significant scalability challenges.
+
+In this document, we describe our work during the 2024 BioHackathon held in Fukushima, Japan, to tackle this problem. Our approach is based on slicing the input data, performing parallelized shape extraction processes, and merging the resulting partial outputs. By refining our software and methods, we successfully extracted shapes from a subset of UniProt, containing an estimated 15.9 billion triples.
 
 # Introduction
-
 
 
 Shape schemas (SHACL [@citesAsAuthority:SHACLSpec], ShEx [@citesAsAuthority:prud2014shape]) have proven to be effective tools for validating and describing RDF content. However, writing and maintaining RDF schemas can be a time-consuming task, particularly when multiple shapes are involved. To address this challenge, several approaches for automatic schema discovery have been proposed [@citesAsAuthority:fernandez2022shexer; @citesAsAuthority:Bolleman2023; @citesAsAuthority:fernandez2024extracting; @citesAsAuthority:cimmino2020astrea; @citesAsAuthority:rabbani2023extraction; @citesAsAuthority:keely2023shaclgen; @citesAsAuthority:boneva2019shape; @citesAsAuthority:mihindukulasooriya2018rdf; @citesAsAuthority:groz2022inference; @citesAsAuthority:omran2020towards; @citesAsAuthority:spahiu2018towards; @citesAsAuthority:rabbani2023shactor]. 
