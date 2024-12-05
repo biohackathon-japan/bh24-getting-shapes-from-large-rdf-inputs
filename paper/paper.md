@@ -19,7 +19,7 @@ authors:
   - name: Jose Emilio Labra Gayo
     affiliation: 1
     orcid: 0000-0001-8907-5348
-  - name: Andra Waagmaaster
+  - name: Andra Waagmeester
     affiliation: 3
     orcid: 0000-0001-9773-4008
 affiliations:
